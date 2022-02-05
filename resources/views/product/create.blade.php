@@ -11,9 +11,10 @@
                 <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
 
 
-                    <input class="form-control" type="text" name="product_title">
-                    <input class="form-control" type="text" name="product_description">
-                    <input class="form-control" type="number" name="product_price">
+                    <input class="form-control" type="text" name="product_title" placeholder="Title">
+                    <textarea class="form-control" name="product_description" cols="30" rows="5">Product description</textarea>
+                    <input class="form-control" type="number" step="0.01" name="product_price" placeholder="Product price">
+                    <label for="product_categoryId">Select product category</label>
                     <select class="form-control" name="product_categoryId">
                         @foreach ($selected_values as $category)
                         <option value="{{$category->id}}">{{$category->title}}</option>

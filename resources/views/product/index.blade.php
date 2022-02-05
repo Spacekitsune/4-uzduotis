@@ -23,7 +23,11 @@
                 @foreach ($product as $product)
                 <div class="col">
                     <div class="card shadow-sm">
+                        @if (strpos($product->image_url, "http") === 0)
                         <img src="{{$product->image_url}}" class="bd-placeholder-img card-img-top" alt="{{$product->title}}" width="100%" height="225">
+                        @else
+                        <img src="{{'/images/'.$product->image_url}}" class="bd-placeholder-img card-img-top" alt="{{$product->title}}" width="100%" height="225">
+                        @endif
                         <div class="card-body">
                             <h3>{{$product->title}}</h3>
                             <h5>{{$product->productsCategory->title}}</h5>

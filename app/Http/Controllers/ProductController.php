@@ -38,9 +38,24 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\StoreProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductRequest $request)
+    public function store(Request $request)
+
     {
-        //
+        $product = new Product();
+
+        $productName = 'image' . time() . '.' . $request->product_imageUrl->extension();
+
+        $request->product_imageUrl->move(public_path('images'), $productName);
+
+        $product->title = $request->product_title;
+        $product->description = $request->product_description;
+        $product->price = $request->product_price;
+        $product->category_id = $request->product_categoryId;
+        $product->image_url = $productName;
+
+        $product->save();
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -51,7 +66,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('product.show', ['product' => $product]);
     }
 
     /**
@@ -62,7 +77,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $selected_values = ProductCategory::all();
+        return view('product.edit', ['product' => $product], ['selected_values' => $selected_values]);
     }
 
     /**
@@ -72,9 +88,22 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(Request $request, Product $product)
     {
-        //
+        if ($request->has('product_imageUrl')) {
+            $productName = 'image' . time() . '.' . $request->product_imageUrl->extension();
+            $request->product_imageUrl->move(public_path('images'), $productName);
+            $product->image_url = $productName;
+        }
+
+        $product->title = $request->product_title;
+        $product->description = $request->product_description;
+        $product->price = $request->product_price;
+        $product->category_id = $request->product_categoryId;
+
+        $product->save();
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -85,6 +114,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if (strpos($product->image_url, "http") === 0) {
+            $product->delete();
+            return redirect()->route('product.index')->with('success_message', 'Product was deleted.');
+        } else {
+            $dir = "images";
+            unlink($dir . '/' . $product->image_url);
+            $product->delete();
+            return redirect()->route('product.index')->with('success_message', 'Product was deleted.');
+        }
     }
 }
