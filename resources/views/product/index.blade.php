@@ -31,6 +31,7 @@
                         <div class="card-body">
                             <h3>{{$product->title}}</h3>
                             <h5>{{$product->productsCategory->title}}</h5>
+                            <p>{{$product->description}}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <a class="btn btn-primary" href="{{route('product.show', [$product])}}">Show</a>

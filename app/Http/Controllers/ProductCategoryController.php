@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
+use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
@@ -15,7 +16,8 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $productCategory = productCategory::all();
+        return view('productcategory.index', ['productCategory' => $productCategory]);
     }
 
     /**
@@ -25,7 +27,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('productcategory.create');
     }
 
     /**
@@ -34,9 +36,15 @@ class ProductCategoryController extends Controller
      * @param  \App\Http\Requests\StoreProductCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductCategoryRequest $request)
+    public function store(Request $request)
     {
-        //
+        $productCategory = new ProductCategory();
+        $productCategory->title = $request->productcategory_title;
+        $productCategory->description = $request->productcategory_description;
+
+        $productCategory->save();
+
+        return redirect()->route('productcategory.index');
     }
 
     /**
@@ -58,7 +66,7 @@ class ProductCategoryController extends Controller
      */
     public function edit(ProductCategory $productCategory)
     {
-        //
+        return view('productcategory.edit', ['productCategory' => $productCategory]);
     }
 
     /**
@@ -68,9 +76,14 @@ class ProductCategoryController extends Controller
      * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateProductCategoryRequest $request, ProductCategory $productCategory)
+    public function update(Request $request, ProductCategory $productCategory)
     {
-        //
+        $productCategory->title = $request->productcategory_title;
+        $productCategory->description = $request->productcategory_description;
+
+        $productCategory->save();
+
+        return redirect()->route('productcategory.index');
     }
 
     /**
@@ -81,6 +94,11 @@ class ProductCategoryController extends Controller
      */
     public function destroy(ProductCategory $productCategory)
     {
-        //
+        $products = $productCategory->categoryProducts;
+        if (count($products) != 0) {
+            return redirect()->route('productcategory.index')->with('error_message', 'Delete is not possible while category has products.');
+        } 
+        $productCategory->delete();
+        return redirect()->route('productcategory.index')->with('success_message', 'Category was deleted.');
     }
 }
