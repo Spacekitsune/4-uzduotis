@@ -17,25 +17,25 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $sortCollumn = 'category_id';
+        // $sortCollumn = 'category_id';
+        $category = ProductCategory::orderBy('title', 'asc' )->get();
         $sortOrder = $request->sortOrder;
-        
+
         if (empty($sortOrder)) {
             $product = Product::all();
         } else {
 
-        $sortBool = true;
+            $sortBool = true;
 
-        if ($sortOrder==='asc') {
-            $sortBool = false;
-        }
+            if ($sortOrder === 'asc') {
+                $sortBool = false;
+            }
 
-            $product = Product::get()->sortBy(function($query){
+            $product = Product::get()->sortBy(function ($query) {
                 return $query->productsCategory->title;
-            }, SORT_REGULAR, $sortBool )->all();
-        
+            }, SORT_REGULAR, $sortBool)->all();
         }
-        return view('product.index', ['product' => $product]);
+        return view('product.index', ['product' => $product, 'category' => $category]);
     }
 
     /**
@@ -83,7 +83,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-       //
+        //
     }
 
     /**
@@ -140,5 +140,13 @@ class ProductController extends Controller
             $product->delete();
             return redirect()->route('product.index')->with('success_message', 'Product was deleted.');
         }
+    }
+
+    public function filter(Request $request)
+    {
+
+        $category_id = $request->category_id;
+        $product = Product::where('category_id', '=' , $category_id)->get();
+        return view('product.filter', ['product' =>$product]);
     }
 }

@@ -5,7 +5,7 @@
 
 <div class="container">
 
-    <h1>Products</h1>
+    <h1>Search results</h1>
 
     @if (session()->has('success_message'))
     <div class="alert alert-success">Product was deleted.</div>
@@ -15,42 +15,6 @@
     <p>There are no products</p>
     @endif
 
-    <div class="container">
-        <a class="btn btn-primary" href="{{route('product.create')}}">Upload new products</a>
-    </div>
-
-    <div class="container">
-        <h4>Sort products</h4>
-        <form action="{{route('product.index')}}" method="GET">
-            <label for="sortOrder">Sort order</label>
-            <div class="input-group">
-                <select class="custom-select" name="sortOrder">
-                    <option selected value="">Choose...</option>
-                    <option value="asc">A-Z</option>
-                    <option value="desc">Z-A</option>
-                </select>
-                @csrf
-                <div class="input-group-append">
-                    <input class="btn btn-outline-secondary" type="submit" value="Sort by category">
-                </div>
-            </div>
-        </form>
-
-
-        <form method="GET" action="{{route('product.filter')}}">
-            @csrf
-            <label for="category_id">Filter by</label>
-            <div class="input-group">
-            <select class="custom-select" name="category_id">
-                @foreach ($category as $category)
-                <option value="{{$category->id}}">{{$category->title}}</option>
-                @endforeach
-            </select>
-            <button class="btn btn-outline-secondary" type="submit">Filter</button>
-            </div>
-        </form>
-
-    </div>
 
     <div class="album py-5 bg-light">
         <div class="container">

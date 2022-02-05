@@ -14,11 +14,25 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productCategory = productCategory::all();
-        return view('productcategory.index', ['productCategory' => $productCategory]);
-    }
+
+        $sortCollumn = $request->sortCollumn; //name
+        $sortOrder = $request->sortOrder; // ASC
+
+        if(empty($sortCollumn) || empty($sortOrder)) {
+            $productCategory = ProductCategory::all();
+        } else {
+            $productCategory = ProductCategory::orderBy($sortCollumn, $sortOrder )->get();
+        }   
+
+        $select_array =  array_keys($productCategory->first()->getAttributes());
+        array_pop($select_array);
+        array_pop($select_array);
+
+    //     $productCategory = productCategory::all();
+    return view('productcategory.index', ['productCategory' => $productCategory, 'sortCollumn' =>$sortCollumn, 'sortOrder'=> $sortOrder, 'select_array' => $select_array,  ]);
+}
 
     /**
      * Show the form for creating a new resource.

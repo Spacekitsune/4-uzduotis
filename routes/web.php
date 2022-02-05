@@ -43,4 +43,5 @@ Route::prefix('products')->group(function () {
     Route::post('update/{product}', 'App\Http\Controllers\ProductController@update')->name('product.update');
     Route::post('destroy/{product}', 'App\Http\Controllers\ProductController@destroy')->name('product.destroy');
     Route::get('show/{product}', 'App\Http\Controllers\ProductController@show')->name('product.show');
+    Route::get('filter', 'App\Http\Controllers\ProductController@filter')->name('product.filter');
 });
