@@ -20,26 +20,28 @@
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 g-3">
-            @foreach ($product as $product)
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="{{$product->image_url}}" class="bd-placeholder-img card-img-top" alt="{{$product->title}}" width="100%" height="225">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a class="btn btn-primary" href="{{route('product.show', [$product])}}">Show</a>
-                                <a class="btn btn-success" href="{{route('product.edit', [$product])}}">Edit</a>
+                @foreach ($product as $product)
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="{{$product->image_url}}" class="bd-placeholder-img card-img-top" alt="{{$product->title}}" width="100%" height="225">
+                        <div class="card-body">
+                            <h3>{{$product->title}}</h3>
+                            <h5>{{$product->productsCategory->title}}</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="{{route('product.show', [$product])}}">Show</a>
+                                    <a class="btn btn-success" href="{{route('product.edit', [$product])}}">Edit</a>
 
-                                <form action="{{route('product.destroy', [$product])}}" method="POST">
-                                    @csrf
-                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                </form>
+                                    <form action="{{route('product.destroy', [$product])}}" method="POST">
+                                        @csrf
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            @endforeach
+                @endforeach
             </div>
         </div>
     </div>

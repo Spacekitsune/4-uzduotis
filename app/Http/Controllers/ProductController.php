@@ -28,7 +28,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $selected_values = ProductCategory::all();
+        return view('product.create', ['selected_values' => $selected_values]);
     }
 
     /**
