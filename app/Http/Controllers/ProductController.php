@@ -15,9 +15,26 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $product = Product::all();
+        $sortCollumn = 'category_id';
+        $sortOrder = $request->sortOrder;
+        
+        if (empty($sortOrder)) {
+            $product = Product::all();
+        } else {
+
+        $sortBool = true;
+
+        if ($sortOrder==='asc') {
+            $sortBool = false;
+        }
+
+            $product = Product::get()->sortBy(function($query){
+                return $query->productsCategory->title;
+            }, SORT_REGULAR, $sortBool )->all();
+        
+        }
         return view('product.index', ['product' => $product]);
     }
 

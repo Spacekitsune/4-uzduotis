@@ -15,7 +15,27 @@
     <p>There are no products</p>
     @endif
 
-    <a class="btn btn-primary" href="{{route('product.create')}}">Upload new products</a>
+    <div class="container">
+        <a class="btn btn-primary" href="{{route('product.create')}}">Upload new products</a>
+    </div>
+
+    <div class="container">
+        <h4>Sort products</h4>
+        <form action="{{route('product.index')}}" method="GET">
+            <label for="sortOrder">Sort order</label>
+            <div class="input-group">
+                <select class="custom-select" name="sortOrder">
+                    <option selected value="">Choose...</option>
+                    <option value="asc">A-Z</option>
+                    <option value="desc">Z-A</option>                    
+                </select>
+                @csrf
+                <div class="input-group-append">
+                    <input class="btn btn-outline-secondary" type="submit" value="Sort by category">
+                </div>
+            </div>
+        </form>
+    </div>
 
     <div class="album py-5 bg-light">
         <div class="container">
