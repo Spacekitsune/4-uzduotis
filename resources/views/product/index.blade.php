@@ -16,6 +16,10 @@
     @endif
 
     <div class="container">
+        <a href="{{route('productcategory.index')}}">Category list</a>
+    </div>
+
+    <div class="container">
         <a class="btn btn-primary" href="{{route('product.create')}}">Upload new products</a>
     </div>
 
