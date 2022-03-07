@@ -7,6 +7,7 @@ use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -22,7 +23,7 @@ class ProductController extends Controller
         $sortOrder = $request->sortOrder;
 
         if (empty($sortOrder)) {
-            $product = Product::all();
+            $product = Product::paginate(4);
         } else {
 
             $sortBool = true;
@@ -147,6 +148,6 @@ class ProductController extends Controller
 
         $category_id = $request->category_id;
         $product = Product::where('category_id', '=' , $category_id)->get();
-        return view('product.filter', ['product' =>$product]);
+        return view('product.search', ['product' =>$product]);
     }
 }

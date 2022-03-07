@@ -87,9 +87,10 @@
                 </div>
                 @endforeach
             </div>
+            
         </div>
     </div>
-
+    {!! $product->appends(Request::except('page'))->render() !!}
 </div>
 
 

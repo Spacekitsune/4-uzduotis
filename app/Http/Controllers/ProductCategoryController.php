@@ -6,6 +6,7 @@ use App\Models\ProductCategory;
 use App\Http\Requests\StoreProductCategoryRequest;
 use App\Http\Requests\UpdateProductCategoryRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductCategoryController extends Controller
 {
@@ -21,7 +22,7 @@ class ProductCategoryController extends Controller
         $sortOrder = $request->sortOrder; // ASC
 
         if(empty($sortCollumn) || empty($sortOrder)) {
-            $productCategory = ProductCategory::all();
+            $productCategory = ProductCategory::paginate(3);
         } else {
             $productCategory = ProductCategory::orderBy($sortCollumn, $sortOrder )->get();
         }   
@@ -30,9 +31,19 @@ class ProductCategoryController extends Controller
         array_pop($select_array);
         array_pop($select_array);
 
-    //     $productCategory = productCategory::all();
-    return view('productcategory.index', ['productCategory' => $productCategory, 'sortCollumn' =>$sortCollumn, 'sortOrder'=> $sortOrder, 'select_array' => $select_array,  ]);
+       
+
+    
+    return view('productcategory.index', [
+        'productCategory' => $productCategory, 'sortCollumn' =>$sortCollumn, 'sortOrder'=> $sortOrder, 'select_array' => $select_array
+    ]);
+
+
+    
+
 }
+
+
 
     /**
      * Show the form for creating a new resource.

@@ -79,10 +79,10 @@
                 </td>
             </tr>
             @endforeach
-
         </table>
+        
+        {{$productCategory->links()}}
+        
     </div>
-
-
 
     @endsection
